@@ -81,3 +81,6 @@ link_file ~/.zshrc $DIR/dotfiles/.tmux.conf
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
 link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim 
 
+git config --global user.email "me@mds325.io"
+git config --global user.name "Manuel Sanchez"
+
