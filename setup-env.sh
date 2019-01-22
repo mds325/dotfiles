@@ -93,5 +93,5 @@ fi
 
 if [ ! -f ~/.ssh/*.pub ]; then
 	echo "No public ssh key-pair found. creating one"
-	ssh-keygen -t rsa -b 4096 -C "$USER@$HOSTNAME"
+	ssh-keygen -t rsa -b 4096 -C "$USER@$(hostname)"
 fi
