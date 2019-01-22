@@ -73,6 +73,8 @@ else
 	echo "package google-chrome-stable already installed"
 fi
 
+# Install nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh
 
 mkdir -p ~/.config/nvim
 
