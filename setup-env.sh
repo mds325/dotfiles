@@ -88,6 +88,10 @@ if [ "$(basename `getent passwd $LOGNAME`)" != "zsh" ]; then
 	chsh -s $(which zsh)
 	echo "default shell changed to zsh"
 else
-	echo "default shell is zsh already "
+	echo "default shell is already zsh"
 fi
 
+if [ ! -f ~/.ssh/*.pub ]; then
+	echo "No public ssh key-pair found. creating one"
+	ssh-keygen -t rsa -b 4096 -C "$USER@$HOSTNAME"
+fi
