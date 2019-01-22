@@ -77,7 +77,7 @@ fi
 mkdir -p ~/.config/nvim
 
 # Link settings
-link_file ~/.zshrc $DIR/dotfiles/.tmux.conf
+link_file ~/.zshrc $DIR/dotfiles/.zshrc
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
 link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim 
 
