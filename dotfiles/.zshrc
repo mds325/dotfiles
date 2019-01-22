@@ -4,6 +4,7 @@ export PATH
 ZSH=~/.oh-my-zsh
 ZSH_THEME="agnoster"
 EDITOR=nvim
+export TERM=screen-256color
 
 plugins=(
   git

@@ -14,6 +14,7 @@ call plug#begin()
 call plug#end()
 
 let g:airline_powerline_fonts = 1
+let mapleader = ','
 
 " Settings
 set nowrap
