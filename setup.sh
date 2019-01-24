@@ -1,46 +1,55 @@
 #!/bin/sh
 
 install_package() {
-	if [ $(dpkg -l $1 >/dev/null 2>&1; echo $?) -eq 1 ]; then
-		sudo apt-get install -y $1
+	local cmd=$1
+	local package=$2
+
+	echo "checking for $package"
+
+	if [ -z "$(which $cmd)" ] && ! dpkg -l $package >/dev/null 2>&1; then
+		echo "installing $package"
+		sudo apt-get install -y $package
 	else
-		echo "package $1 already installed"
+		echo "package $cmd already installed"
 	fi
 }
 
 link_file() {
-	# arg1: link_file
-	# arg2: link_to
-	if [ -e $1 ] && [ ! -L $1 ]; then
-		mv $1 $1.bak
-		echo "backed up previous $1"
+	local link_file=$1
+	local link_to=$2
+
+	if [ -e $link_file ] && [ ! -L $link_file ]; then
+		mv $link_file $link_file.bak
+		echo "backed up previous $link_file"
 	fi
-	if [ ! -e $1 ]; then
-		ln -s $2 $1
-		echo "linked $1 to $2"
+	if [ ! -e $link_file ]; then
+		ln -s $link_to $link_file
+		echo "linked $link_to to $link_file"
 	fi
-	if [ -L $1 ]; then
-		echo "link for $1 already exists"
+	if [ -L $link_file ]; then
+		echo "link for $link_file already exists"
 	fi
 }
 
-install_package curl
-install_package zsh
-install_package git
-install_package openssh-client
-install_package openssh-server
-install_package openssl
-install_package xsel
-install_package tmux
-install_package fonts-powerline
+install_package curl curl
+install_package zsh zsh
+install_package git git
+install_package ssh openssh-client
+install_package sshd openssh-server
+install_package openssl openssl
+install_package xsel xsel
+install_package tmux tmux
+install_package fonts-powerline fonts-powerline
 
 # Ensure repo is downloaded
-if [ "$(basename $0)" != "setup-env.sh" ] && [ ! -d ~/.env ]; then
+DIR=$HOME/.env
+if [ "$(basename $0)" != "setup.sh" ] && [ ! -e ~/.env ]; then
 	git clone https://github.com/mds325/env.git ~/.env
 	echo "env repo downloaded"
 	DIR="$HOME/.env"
-else
-	DIR="$(cd $(dirname $0) && pwd)"
+elif [ ! -e ~/.env ]; then
+	ln -s "$(cd $(dirname $0) && pwd)" ~/.env
+	echo "symlink to repo created"
 fi
 
 # Install extras
@@ -63,10 +72,9 @@ else
 fi
 
 # Install Google Chrome
-if [ -z "$(which google-chrome-stable)" ]; then
+if ! which google-chrome-stable >/dev/null; then
 	curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
-	sudo apt-get install libappindicator3-1 libindicator3-7
 	rm google-chrome-stable_current_amd64.deb
 	echo "installed google-chrome-stable"
 else
@@ -74,19 +82,29 @@ else
 fi
 
 # Install nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh
-
+# which nvm
+# if ! which nvm; then
+#	echo "installing nvm"
+#	curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh
+#else
+#	echo "nvm already installed"
+#fi
 mkdir -p ~/.config/nvim
 
-# Link settings
+echo "Installing missing dependencies for installed packages"
+sudo apt-get install --fix-broken -y
+
+echo "Creating symbolic links"
 link_file ~/.zshrc $DIR/dotfiles/.zshrc
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
 link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim 
 
+echo "Configuring git"
 git config --global user.email "me@mds325.io"
 git config --global user.name "Manuel Sanchez"
 
-if [ "$(basename `getent passwd $LOGNAME`)" != "zsh" ]; then
+
+if [ "$(basename `getent passwd $LOGNAME | cut -d: -f7`)" != "zsh" ]; then
 	chsh -s $(which zsh)
 	echo "default shell changed to zsh"
 else

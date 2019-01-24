@@ -4,7 +4,6 @@ export PATH
 ZSH=~/.oh-my-zsh
 ZSH_THEME="agnoster"
 EDITOR=nvim
-export TERM=screen-256color
 
 plugins=(
   git
@@ -17,6 +16,7 @@ alias editenv="$EDITOR $[ENV_DIR]"
 alias reload-source="source ~/.zshrc"
 alias edit-source="$EDITOR ~/.zshrc && reload-source"
 alias vim=nvim
+alias tmux="TERM=screen-256color tmux"
 
 export NVM_DIR="$HOME/.config"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
