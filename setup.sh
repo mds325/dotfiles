@@ -88,6 +88,16 @@ if [ -z "$NVM_DIR" ]; then
 else
 	echo "nvm already installed"
 fi
+
+# Install fd
+if ! which fd; then
+  curl -LO https://github.com/sharkdp/fd/releases/download/v7.2.0/fd_7.2.0_amd64.deb
+  sudo dpkg -i fd_7.2.0_amd64.deb
+  rm fd_7.2.0_amd64.deb
+  echo "package fd installed"
+else
+  echo "package fd already installed"
+fi
 mkdir -p ~/.config/nvim
 
 echo "Installing missing dependencies for installed packages"
@@ -97,6 +107,7 @@ echo "Creating symbolic links"
 link_file ~/.zshrc $DIR/dotfiles/.zshrc
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
 link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim 
+link_file ~/.fdignore $DIR/dotfiles/.fdignore
 
 echo "Configuring git"
 git config --global user.email "me@mds325.io"

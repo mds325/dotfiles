@@ -11,17 +11,31 @@ call plug#begin()
 	Plug 'vim-airline/vim-airline'
 	Plug 'morhetz/gruvbox'
 	Plug 'scrooloose/nerdtree'
+	Plug 'w0rp/ale'
 call plug#end()
 
 let g:airline_powerline_fonts = 1
 let mapleader = ','
 
-" Settings
+" Configure ale
+let b:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fix_on_save = 1
+
+" Configure ctrlp
+let g:ctrlp_user_command="fd"
+
+" === Settings ===
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+set list listchars=tab:\ \ ,trail:·
+set autoread
 set nowrap
 set number
-set tabstop=4
-set shiftwidth=4
-set shiftround
 set undolevels=1000
 set history=1000
 set incsearch
@@ -30,6 +44,7 @@ set ignorecase
 set hidden
 set nobackup
 set noswapfile
+set scrolloff=8
 
 colorscheme gruvbox
 
