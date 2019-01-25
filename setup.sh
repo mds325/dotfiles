@@ -82,13 +82,12 @@ else
 fi
 
 # Install nvm
-# which nvm
-# if ! which nvm; then
-#	echo "installing nvm"
-#	curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh
-#else
-#	echo "nvm already installed"
-#fi
+if [ -z "$NVM_DIR" ]; then
+	echo "installing nvm"
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh
+else
+	echo "nvm already installed"
+fi
 mkdir -p ~/.config/nvim
 
 echo "Installing missing dependencies for installed packages"
