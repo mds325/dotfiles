@@ -18,7 +18,7 @@ let g:airline_powerline_fonts = 1
 let mapleader = ','
 
 " Configure ale
-let b:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_fix_on_save = 1
 
 " Configure ctrlp
@@ -44,7 +44,10 @@ set ignorecase
 set hidden
 set nobackup
 set noswapfile
+set nowb
 set scrolloff=8
+set sidescrolloff=15
+set sidescroll=1
 
 colorscheme gruvbox
 

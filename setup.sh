@@ -6,7 +6,7 @@ install_package() {
 
 	echo "checking for $package"
 
-	if [ -z "$(which $cmd)" ] && ! dpkg -l $package >/dev/null 2>&1; then
+  if [ -z "$(which $cmd)" ] && dpkg -l $package 2>&1 | tail -n1 | cut -d\  -f1 | grep .n >/dev/null; then
 		echo "installing $package"
 		sudo apt-get install -y $package
 	else
@@ -40,6 +40,8 @@ install_package openssl openssl
 install_package xsel xsel
 install_package tmux tmux
 install_package fonts-powerline fonts-powerline
+install_package rar rar
+install_package unrar unrar
 
 # Ensure repo is downloaded
 DIR=$HOME/.env
