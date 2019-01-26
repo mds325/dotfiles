@@ -47,6 +47,7 @@ install_package unrar unrar
 DIR=$HOME/.env
 if [ "$(basename $0)" != "setup.sh" ] && [ ! -e ~/.env ]; then
 	git clone https://github.com/mds325/env.git ~/.env
+  git remote set-url origin git@github.com:mds325/env.git
 	echo "env repo downloaded"
 	DIR="$HOME/.env"
 elif [ ! -e ~/.env ]; then
@@ -100,7 +101,6 @@ if ! which fd; then
 else
   echo "package fd already installed"
 fi
-mkdir -p ~/.config/nvim
 
 echo "Installing missing dependencies for installed packages"
 sudo apt-get install --fix-broken -y
@@ -108,7 +108,7 @@ sudo apt-get install --fix-broken -y
 echo "Creating symbolic links"
 link_file ~/.zshrc $DIR/dotfiles/.zshrc
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
-link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim 
+mkdir -p ~/.config/nvim && link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim
 link_file ~/.fdignore $DIR/dotfiles/.fdignore
 
 echo "Configuring git"
