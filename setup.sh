@@ -6,7 +6,7 @@ install_package() {
 
 	echo "checking for $package"
 
-  if [ -z "$(which $cmd)" ] && dpkg -l $package 2>&1 | tail -n1 | cut -d\  -f1 | grep .n >/dev/null; then
+  if ! which $cmd >/dev/null && dpkg -l $package 2>&1 | tail -n1 | cut -d\  -f1 | grep .n >/dev/null; then
 		echo "installing $package"
 		sudo apt-get install -y $package
 	else
@@ -23,7 +23,7 @@ link_file() {
 		echo "backed up previous $link_file"
 	fi
 	if [ ! -e $link_file ]; then
-		ln -s $link_to $link_file
+		sudo ln -sf $link_to $link_file
 		echo "linked $link_to to $link_file"
 	fi
 	if [ -L $link_file ]; then
@@ -72,6 +72,7 @@ if [ ! -f /usr/local/bin/nvim ]; then
 	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 	chmod +x nvim.appimage
 	sudo mv nvim.appimage /usr/local/bin/nvim
+  pip3 install neovim
 	echo "installed nvim"
 else
 	echo "package nvim already installed"
@@ -80,7 +81,7 @@ fi
 # Install Google Chrome
 if ! which google-chrome-stable >/dev/null; then
 	curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	sudo dpkg -i google-chrome-stable_current_amd64.deb
+	sudo apt install google-chrome-stable_current_amd64.deb
 	rm google-chrome-stable_current_amd64.deb
 	echo "installed google-chrome-stable"
 else
@@ -96,17 +97,14 @@ else
 fi
 
 # Install fd
-if ! which fd; then
+if ! which fd >/dev/null; then
   curl -LO https://github.com/sharkdp/fd/releases/download/v7.2.0/fd_7.2.0_amd64.deb
-  sudo dpkg -i fd_7.2.0_amd64.deb
+  sudo apt install fd_7.2.0_amd64.deb
   rm fd_7.2.0_amd64.deb
   echo "package fd installed"
 else
   echo "package fd already installed"
 fi
-
-echo "Installing missing dependencies for installed packages"
-sudo apt-get install --fix-broken -y
 
 echo "Creating symbolic links"
 link_file ~/.zshrc $DIR/dotfiles/.zshrc
@@ -135,5 +133,8 @@ if [ ! -f ~/.ssh/*.pub ]; then
 fi
 
 # Increase the number of inotify watchers
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+if [ -z "cat /etc/sysctl.conf | grep fs.inotify.max_user_watches=" ]; then
+  echo "Increase fs.inotify.max_user_watches"
+  echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+fi
 
