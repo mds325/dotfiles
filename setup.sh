@@ -42,6 +42,10 @@ install_package tmux tmux
 install_package fonts-powerline fonts-powerline
 install_package rar rar
 install_package unrar unrar
+install_package build-essential build-essential
+install_package cmake cmake
+install_package python3libs libpython3-dev
+install_package pip3 python3-pip
 
 # Ensure repo is downloaded
 DIR=$HOME/.env
@@ -55,8 +59,7 @@ elif [ ! -e ~/.env ]; then
 	echo "symlink to repo created"
 fi
 
-# Install extras
-# ohmyzsh
+# Install ohmyzsh
 if [ ! -d ~/.oh-my-zsh ]; then
 	sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 	echo "installed ohmyzsh"
@@ -110,6 +113,8 @@ link_file ~/.zshrc $DIR/dotfiles/.zshrc
 link_file ~/.tmux.conf $DIR/dotfiles/.tmux.conf
 mkdir -p ~/.config/nvim && link_file ~/.config/nvim/init.vim $DIR/nvim/init.vim
 link_file ~/.fdignore $DIR/dotfiles/.fdignore
+link_file /usr/local/bin/pip pip3
+# TODO: link python to python3
 
 echo "Configuring git"
 git config --global user.email "me@mds325.io"
@@ -127,3 +132,7 @@ if [ ! -f ~/.ssh/*.pub ]; then
 	echo "No public ssh key-pair found. creating one"
 	ssh-keygen -t rsa -b 4096 -C "$USER@$(hostname)"
 fi
+
+# Increase the number of inotify watchers
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+

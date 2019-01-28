@@ -7,11 +7,15 @@ endif
 
 " Plugins
 call plug#begin()
-	Plug 'ctrlpvim/ctrlp.vim'
-	Plug 'vim-airline/vim-airline'
-	Plug 'morhetz/gruvbox'
-	Plug 'scrooloose/nerdtree'
-	Plug 'w0rp/ale'
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'morhetz/gruvbox'
+  Plug 'scrooloose/nerdtree'
+  Plug 'w0rp/ale'
+  Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
+  Plug 'tpope/vim-surround'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
 call plug#end()
 
 let g:airline_powerline_fonts = 1
