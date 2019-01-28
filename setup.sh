@@ -119,6 +119,7 @@ link_file /usr/local/bin/pip pip3
 echo "Configuring git"
 git config --global user.email "me@mds325.io"
 git config --global user.name "Manuel Sanchez"
+git config --global core.editor nvim
 
 
 if [ "$(basename `getent passwd $LOGNAME | cut -d: -f7`)" != "zsh" ]; then
