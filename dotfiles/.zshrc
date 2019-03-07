@@ -1,4 +1,5 @@
 PATH=./bin:./node_modules/.bin
+PATH=$PATH:/snap/bin
 PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export PATH
 ZSH=~/.oh-my-zsh
