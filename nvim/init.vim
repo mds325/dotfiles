@@ -22,8 +22,12 @@ let g:airline_powerline_fonts = 1
 let mapleader = ','
 
 " Configure ale
-let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_fixers = {
+      \  '*': ['trim_whitespace', 'remove_trailing_lines'],
+      \  'javascript': ['eslint']
+      \}
 let g:ale_fix_on_save = 1
+let NERDTreeQuitOnOpen=1
 
 " Configure ctrlp
 let g:ctrlp_user_command="fd"
@@ -52,6 +56,8 @@ set nowb
 set scrolloff=8
 set sidescrolloff=15
 set sidescroll=1
+set splitright
+set splitbelow
 
 colorscheme gruvbox
 

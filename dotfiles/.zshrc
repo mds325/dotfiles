@@ -1,6 +1,5 @@
 PATH=./bin:./node_modules/.bin
-PATH=$PATH:/snap/bin
-PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=$PATH:/snap/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export PATH
 ZSH=~/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -18,6 +17,7 @@ alias reload-source="source ~/.zshrc"
 alias edit-source="$EDITOR ~/.zshrc && reload-source"
 alias vim=nvim
 alias tmux="TERM=screen-256color tmux"
+alias spotify="spotify >/dev/null 2>&1 &"
 
 export NVM_DIR="$HOME/.config"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
